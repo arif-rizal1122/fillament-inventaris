@@ -38,8 +38,8 @@ class TransactionResource extends Resource
                     ->required(),
                 Forms\Components\TextInput::make('amount')
                     ->required()
-                    ->label('total pemasukan / pengeluaran')
-                    ->sortable(),
+                    ->label('total pemasukan / pengeluaran'),
+                    // ->sortable(),
                 Forms\Components\TextInput::make('note')
                     ->maxLength(255)
                     ->label('catatan')
@@ -66,7 +66,9 @@ class TransactionResource extends Resource
                 Tables\Columns\IconColumn::make('category.is_expense')
                     ->boolean()
                     ->trueIcon('heroicon-o-chat-bubble-bottom-center-text')
+                    ->trueColor('success')
                     ->falseIcon('heroicon-o-chat-bubble-bottom-center')
+                    ->falseColor('warning')
                     ->label('tipe'),
                 Tables\Columns\TextColumn::make('date')
                     ->date()

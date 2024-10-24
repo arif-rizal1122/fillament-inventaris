@@ -44,7 +44,9 @@ class CategoryResource extends Resource
                 Tables\Columns\IconColumn::make('is_expense')
                     ->boolean()
                     ->trueIcon('heroicon-o-chat-bubble-bottom-center-text')
+                    ->trueColor('success')
                     ->falseIcon('heroicon-o-chat-bubble-bottom-center')
+                    ->falseColor('warning')
                     ->label('tipe'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
