@@ -42,7 +42,10 @@ class CategoryResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\IconColumn::make('is_expense')
-                    ->boolean(),
+                    ->boolean()
+                    ->trueIcon('heroicon-o-chat-bubble-bottom-center-text')
+                    ->falseIcon('heroicon-o-chat-bubble-bottom-center')
+                    ->label('tipe'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

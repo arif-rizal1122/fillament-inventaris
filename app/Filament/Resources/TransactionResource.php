@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\TransactionResource\Pages;
 use App\Filament\Resources\TransactionResource\RelationManagers;
+use App\Models\Category;
 use App\Models\Transaction;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -23,23 +24,29 @@ class TransactionResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
                 Forms\Components\Select::make('category_id')
                     ->relationship('category', 'name')
+                    ->label('Jenis/Category')
                     ->required(),
                     // ->numeric(),
+                Forms\Components\TextInput::make('name')
+                    ->required()
+                    ->label('Keperluan')
+                    ->maxLength(255),
                 Forms\Components\DatePicker::make('date')
+                    ->label('tanggal')
                     ->required(),
                 Forms\Components\TextInput::make('amount')
                     ->required()
-                    ->numeric(),
+                    ->label('total pemasukan / pengeluaran')
+                    ->sortable(),
                 Forms\Components\TextInput::make('note')
                     ->maxLength(255)
+                    ->label('catatan')
                     ->default(null),
                 Forms\Components\FileUpload::make('image')
                     ->image()
+                    ->label('gambar')
                     ->required(),
             ]);
     }
@@ -48,22 +55,31 @@ class TransactionResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('category.name')
-                    ->numeric()
+                Tables\Columns\ImageColumn::make('category.image')
+                    ->label('Jenis/Category')
+                    ->searchable()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('category.name')
+                    ->description(fn (Transaction $record): string => $record->name)
+                    ->searchable()
+                    ->label('Transaksi'),
                 Tables\Columns\IconColumn::make('category.is_expense')
-                    ->boolean(),
+                    ->boolean()
+                    ->trueIcon('heroicon-o-chat-bubble-bottom-center-text')
+                    ->falseIcon('heroicon-o-chat-bubble-bottom-center')
+                    ->label('tipe'),
                 Tables\Columns\TextColumn::make('date')
                     ->date()
+                    ->label('tanggal')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('amount')
                     ->numeric()
+                    ->money('IDR', locale: 'id')
+                    ->label('total')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('note')
+                    ->label('catatan')
                     ->searchable(),
-                Tables\Columns\ImageColumn::make('image'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
